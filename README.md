@@ -2,7 +2,7 @@
 
 ## Motivation
 
-## 🚀 Quick Start Consumer
+## Quick Start
 
 ## Usage
 
