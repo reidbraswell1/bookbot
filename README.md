@@ -1,1 +1,10 @@
-BookBot is my first [Boot.dev](https://www.boot.dev) project!
+# BookBot [Boot.dev](https://www.boot.dev) project!
+
+## Motivation
+
+## 🚀 Quick Start Consumer
+
+## Usage
+
+## Contributing
+
