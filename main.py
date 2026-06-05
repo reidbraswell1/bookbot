@@ -1,33 +1,34 @@
 import os
+import sys
 from pathlib import Path
+from stats import get_num_words
 
 DEBUG = False
-BOOK="books/frankenstein.txt"
 
 def main():
+    cmd_args: list[str] = sys.argv
+    if len(cmd_args) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    book = cmd_args[1]
     current_path = Path.cwd()
-    with open(current_path/BOOK) as f:
+    with open(current_path/book) as f:
         file_contents = f.read()
         
-        words = count_words(file_contents)
+        words = get_num_words(file_contents)
         #print("Words=",words)
 
         letters = count_all_letters(file_contents)
         #print(f"All letters={letters}")
         
         letters = count_alpha_letters(file_contents)
-        print_report_by_number(letters, words)
-        print_report_by_letter(letters,words)
+        print_report_by_number(letters, words, book)
+        print_report_by_letter(letters,words, book)
 
         # Non Alpha Character Report
         #letters = count_non_alpha_letters(file_contents)
         #print_report_by_number(letters, words)
         #print_report_by_letter(letters, words)
-
-# Count the number of words in a string
-def count_words(string):
-    words = len(string.split())
-    return words
 
 # Count the number of letters in a string
 def count_all_letters(string):
@@ -81,29 +82,29 @@ def sort_on_ltr(dict):
 
 # Total report of the number of times a letter occurs 
 # in the book sorted by number
-def print_report_by_number(dict, words):
+def print_report_by_number(dict, words, book):
 
     report = []
 
     for (key, value) in dict.items():
         report.append({"ltr":key, "num":value})
         report.sort(reverse=True, key=sort_on_num)
-    print("\n--- Begin report 'by count' of books/frankenstein.txt ---")
-    print(f"{words} words found in the document")
+    print(f"\n--- Begin report 'by count' of {book} ---")
+    print(f"Found {words} total words found in the document")
     for dict in report:
-        print(f"The '{dict['ltr']}' chacter was found {dict['num']} times")
+        print(f"{dict['ltr']}: {dict['num']}")
     print("--- End report ---")
 
 # Total report of the number of times a letter occurs 
 # in the book sorted by letter
-def print_report_by_letter(dict, words):
+def print_report_by_letter(dict, words, book):
 
     report = []
 
     for (key, value) in dict.items():
         report.append({"ltr":key, "num":value})
         report.sort(reverse=False, key=sort_on_ltr)
-    print("\n--- Begin report 'by letter' of books/frankenstein.txt ---")
+    print(f"\n--- Begin report 'by letter' of {book} ---")
     print(f"{words} words found in the document")
     for dict in report:
         print(f"The '{dict['ltr']}' chacter was found {dict['num']} times")
